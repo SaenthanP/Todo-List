@@ -23,7 +23,7 @@ router.route('/register').post(async(req, res) => {
 
     }
     if (password !== confirmPassword) {
-        return res.status(400).json({Error:   "password do not match"});
+        return res.status(400).json({Error:  "password do not match"});
 
     }
     const isTaken=await User.findOne({username:username});

@@ -5,85 +5,47 @@ import UserContext from "../context/user.context";
 import Axios from 'axios';
 import Error from './error.component';
 
-export default class Login extends Component {
-    constructor(props){
-        super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-        this.onChangeError=this.onChangeError.bind(this);
+export default function Login(){
+    const[username,setUsername]=useState();
+    const[password,setPassword]=useState();
+    const[error,setError]=useState();
 
-        this.state = {
-            username: '',
-            password: '',
-          
-          error:undefined
-        }
-    }
-    onChangeUsername(e) {
-        //ALWAYS USE SET STATE PROPERY
-        this.setState({
-          //Updates the username element in the state
-          username: e.target.value
-        });
     
-      }
-      onChangePassword(e) {
-        //ALWAYS USE SET STATE PROPERY
-        this.setState({
-          //Updates the username element in the state
-          password: e.target.value
-        });
-    
-      }
-      onChangeConfirmPassword(e) {
-        //ALWAYS USE SET STATE PROPERY
-        this.setState({
-          //Updates the username element in the state
-          confirmPassword: e.target.value
-        });
-    
-      }
-      onChangeError(err){
-          this.setState({
-            error:err
-          });
-      }
-    onSubmit=async(e)=>{
+   const onSubmit=async(e)=>{
        
         try{
         e.preventDefault();
         console.log("test");
        
         const user={
-            username:this.state.username,
-            password:this.state.password,
+            username,
+            password,
          
         }
         console.log(user);
         await Axios.post("http://localhost:5000/users/login",user);
     }catch(err){
 //this.setState({error: err.response.data.Error});
-        err.response.data.Error&&this.onChangeError(err.response.data.Error);
+        err.response.data.Error&&setError(err.response.data.Error);
         }
     }
-    render() {
+    
         return (
             <div className="row">
                 <div className="col-sm-12 d-flex">
                         <div className="card signin-card">
                             <div className="card-body">
-                            {this.state.error&&(<Error message={this.state.error} /> )}
+                            {error&&(<Error message={error} clearError={()=>setError(undefined)}/> )}
 
                                 <h5 className="card-title text-center">Sign In</h5>
-                                <form onSubmit={this.onSubmit} className="form-signin">
+                                <form onSubmit={onSubmit} className="form-signin">
                                     <div className="form-group">
                                         <label for="inputEmail">Username</label>
-                                        <input type="text" className="form-control" placeholder="Username"  className="form-control" value={this.state.username} onChange={this.onChangeUsername}/>
+                                        <input type="text" className="form-control" placeholder="Username"  onChange={(e)=>setUsername(e.target.value)}/>
                                     </div>
                                     <div className="form-group">
                                         <label for="inputEmail">Password</label>
-                                        <input type="password" className="form-control" placeholder="Password"  className="form-control" value={this.state.password} onChange={this.onChangePassword}/>
+                                        <input type="password" className="form-control" placeholder="Password"   onChange={(e)=>setPassword(e.target.value)}/>
                                     </div>
                                     <button className="btn btn-lg btn-primary btn-block text-uppercase signin-btn" type="submit">Sign in</button>
                                     <Link to="/register" >Register</Link>
@@ -99,4 +61,3 @@ export default class Login extends Component {
 
         );
     }
-}
