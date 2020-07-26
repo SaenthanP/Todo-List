@@ -81,7 +81,7 @@ export default class Register extends Component {
                 <div className="col-sm-12 d-flex">
                     <div className="card signin-card">
                         <div className="card-body">
-                        {this.state.error&&(<Error message={this.state.error} status={true}/> )}
+                        {this.state.error&&(<Error message={this.state.error} /> )}
 
                             <h5 className="card-title text-center">Register</h5>
                             <form onSubmit={this.onSubmit} className="form-signin">
