@@ -8,6 +8,7 @@ const auth=require('../middleware/auth');
 
 router.route('/tasks').get(auth,async(req, res) => {
    const tasks =await Todo.find({userId:req.user});
+   console.log("reach");
    res.json(tasks);
 
 });
@@ -21,7 +22,7 @@ router.route('/create').post(auth,async(req, res) => {
         return res.status(400).json({Error : "Task not entered"});
     }
     
-    const isTaken=await Todo.findOne({taskName:taskName});
+    const isTaken=await Todo.findOne({taskName:taskName,userId:req.user});
     if(isTaken){
         return res.status(400).json({Error:"Task already exists"});
 
