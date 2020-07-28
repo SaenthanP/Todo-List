@@ -6,9 +6,9 @@ const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 const auth=require('../middleware/auth');
 
-router.route('/').get(auth,async(req, res) => {
-   const user =await User.findById(req.user);
-   res.json({username:user.username,id:user._id});
+router.route('/tasks').get(auth,async(req, res) => {
+   const tasks =await Todo.find({userId:req.user});
+   res.json(tasks);
 
 });
 
@@ -44,37 +44,17 @@ router.route('/create').post(auth,async(req, res) => {
 });
 
 
-router.route('/delete').delete(auth,async(req,res)=>{
-    try{
-        const deletedUser=req.user;
-       User.findByIdAndDelete(deletedUser)
-        .then(()=>res.json("deleted"))
-        .catch(err=>res.status(400).json('Error: '+err));
-    }catch(err){
-        res.status(500).json('Error'+err); 
-    }
+router.route('/:id').delete(auth,async(req,res)=>{
+    const taskToDelete=Todo.findOne({userId:req.user,_id:req.params.id});
+if(!taskToDelete){
+    return res.status(400).json({Error:"Task not found"});
+}
+const deletedTask=await Todo.findByIdAndDelete(req.params.id)
+return res.json(deletedTask);
+
+  
 
 });
-router.route('/tokenIsValid').post(async(req,res)=>{
-    try{
-        const token=req.header("x-auth-token");
-        if(!token){
-            return res.json(false);
-        }
-            const verified=jwt.verify(token,process.env.SECRET);
-        if(!verified){
-            return res.json(false);
-        }
-        const user= await User.findById(verified.id);
-        if(!user){
-            return res.json(false);
-        }
 
-        return res.json(true);
-    }catch(err){
-        res.status(500).json('Error'+err); 
-    }
-
-});
 
 module.exports = router;
