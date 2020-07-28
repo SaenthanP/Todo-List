@@ -12,7 +12,7 @@ const [password,setPassword]=useState();
 const [confirmPassword,setConfirmPassword]=useState();
 const [error,setError]=useState();
 
-const {setUserData}=userContext(UserContext);
+const {setUserData}=useContext(UserContext);
     const onSubmit = async (e) => {
 
         try {
@@ -26,7 +26,16 @@ const {setUserData}=userContext(UserContext);
             }
             console.log(user);
             await Axios.post("http://localhost:5000/users/register", user);
-         
+            const loginRes=await Axios.post("http://localhost:5000/users/login",{
+                username,
+                password
+            });
+            setUserData({
+                token:loginRes.data.token,
+                user:loginRes.data.user,
+            });
+            localStorage.setItem("auth-token",loginRes.data.token);
+            window.location = '/app';
         } catch (err) {
             //this.setState({error: err.response.data.Error});
             err.response.data.Error && setError(err.response.data.Error);

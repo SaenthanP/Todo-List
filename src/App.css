@@ -1,13 +1,13 @@
 .container-fluid{
   padding:0;
- 
-  display: flex;
-  justify-content: center;
+
+   display: flex;
+  justify-content: center; 
  background:#eed0d0
 }
 
 .signin-card{
-  margin:auto;
+   margin:auto; 
   width:30rem;
   border: 0;
   border-radius: .5rem;

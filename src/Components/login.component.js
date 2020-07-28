@@ -9,7 +9,7 @@ export default function Login(){
     const[username,setUsername]=useState();
     const[password,setPassword]=useState();
     const[error,setError]=useState();
-
+    const {setUserData}=useContext(UserContext);
     
    const onSubmit=async(e)=>{
        
@@ -23,7 +23,13 @@ export default function Login(){
          
         }
         console.log(user);
-        await Axios.post("http://localhost:5000/users/login",user);
+        const loginRes=await Axios.post("http://localhost:5000/users/login",user);
+        setUserData({
+            token:loginRes.data.token,
+            user:loginRes.data.user,
+        });
+        localStorage.setItem("auth-token",loginRes.data.token);
+        window.location = '/app';
     }catch(err){
 //this.setState({error: err.response.data.Error});
         err.response.data.Error&&setError(err.response.data.Error);

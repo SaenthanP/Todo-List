@@ -9,7 +9,7 @@ import './App.css';
 import Login from "./Components/login.component";
 import Register from "./Components/register.component";
 import UserContext from "./context/user.context";
-
+import TodoApp from "./Components/todo-app.component";
 function App() {
   const [userData,setUserData]=useState({
     //When it starts the context and user is undefined
@@ -53,6 +53,7 @@ function App() {
           <Route path={["/", "/login"]} exact component={Login} />
 
           <Route path="/register" exact component={Register} />
+          <Route path="/app" exact component={TodoApp}/>
         </div>
       </UserContext.Provider>
     </Router>
