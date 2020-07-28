@@ -1,7 +1,7 @@
 const express=require('express');
 const cors =require('cors');
 const mongoose=require('mongoose');
-const cookieParser = require('cookie-parser');
+
 
 //Environment variables
 require('dotenv').config();
@@ -14,7 +14,6 @@ const port=process.env.PORT || 5000;
 app.use(cors());
 //parses json
 app.use(express.json());
-app.use(cookieParser());
 
 //Setting up db
 const uri=process.env.ATLAS_URI;
@@ -29,6 +28,8 @@ connection.once('open',()=>{
 const usersRouter=require('./routes/users');
 app.use('/users',usersRouter);
 
+const todoRouter=require('./routes/todo');
+app.use('/todo',todoRouter);
 
 
 app.listen(port,()=>{

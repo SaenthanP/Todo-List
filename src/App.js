@@ -1,7 +1,7 @@
 
 import React,{useState, useEffect} from 'react';
 import logo from './logo.svg';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route ,Switch,Redirect} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Axios from 'axios';
@@ -50,10 +50,13 @@ function App() {
 
 
           <br />
+          <Switch>
           <Route path={["/", "/login"]} exact component={Login} />
 
           <Route path="/register" exact component={Register} />
           <Route path="/app" exact component={TodoApp}/>
+         <Redirect to="/app" exact component={TodoApp}/>
+          </Switch>
         </div>
       </UserContext.Provider>
     </Router>
