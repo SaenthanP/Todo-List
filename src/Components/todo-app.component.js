@@ -8,14 +8,15 @@ import NavBar from "../Components/navbar.component";
 import '../Component.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Edit from '../Components/edit.component';
+
 
 export default function TodoApp() {
     const [taskName, setTaskName] = useState();
-
+const [show,setShow]=useState(false);
     const [todo, setTodo] = useState([]);
     const { userData } = useContext(UserContext);
 
-    //When the app runs, this function runs once because there is no dependancy in []
     useEffect(() => {
 
         if (!localStorage.getItem('auth-token')) {
@@ -29,49 +30,57 @@ export default function TodoApp() {
             setTodo(tasks.data);
         }
         readTasks();
-    }, []);
-    /*eslint no-unused-expressions: [2, { allowShortCircuit: true }]*/
-
-    // const todoList = () => todo.map(
-    //     todo => <Todo todo={todo}/>
-    // )
+    },[]);
 
     const onSubmit = async (e) => {
 
         try {
             e.preventDefault();
-            const newTask ={
+            e.target.reset();
+            const newTask = {
                 taskName,
-             
-                
+
+
             }
             const taskRes = await Axios.post("http://localhost:5000/todo/create", newTask, { headers: { "x-auth-token": localStorage.getItem('auth-token') } });
-            console.log(taskRes.data);
-            window.location = '/app';
+            // console.log(taskRes.data);
+            setTodo([...todo,taskRes.data]);
+
+            // window.location = '/app';
         } catch (err) {
             //this.setState({error: err.response.data.Error});
         }
     }
-    const deleteTodo=async(id)=>{
-        const taskRes = await Axios.delete("http://localhost:5000/todo/"+id,{ headers: { "x-auth-token": localStorage.getItem('auth-token') } });
-        window.location = '/app';
+    const deleteTodo = async (id) => {
+
+        const todoRes = await Axios.delete("http://localhost:5000/todo/" + id, { headers: { "x-auth-token": localStorage.getItem('auth-token') } });
+        // window.location = '/app';
+        setTodo(todoRes.data);
+
+        
     }
 
-   const Todo = (props) => ((
+    const Todo = (props) => ((
         <tbody>
             <tr>
-    
-                {/* {console.log(props.todo)} */}
-                <td key={props.todo.key}>{props.todo.taskName}</td>
-                <td>{<button >Edit Todo</button>}</td>
-                <td>{<button onClick={()=>{deleteTodo(props.todo._id)}}> Delete Todo</button>}</td>
+
+                <td key={props.todo._id}>{props.todo.taskName}</td>
+                <td >{<button type="button" onClick={()=>{setShow(true)}}>Edit Todo</button>}</td>
+                <td  >{<button type="button" onClick={() => {deleteTodo(props.todo._id) }}> Delete Todo</button>}</td>
+
+                {/* <td  >{<button onClick={() => {console.log ("")}}> Delete Todo</button>}</td> */}
             </tr>
-    
+
         </tbody>
     ));
+  
+ 
     return (
         <div className="container-fluid nav">
+
             <NavBar />
+            {(show==true)&&(<Edit show={true}  clearModal={()=>setShow(false)} /> )}
+
             <div className="container">
                 <div className="card todo-card">
                     <div className="card-body">
@@ -80,7 +89,7 @@ export default function TodoApp() {
                             <div className="row">
                                 <div className="col-sm-8 d-flex">
                                     <div className="form-group">
-                                        <input type="text" className="task-search form-control" placeholder="Task" onChange={(e) => setTaskName(e.target.value)} />
+                                        <input type="text" className="task-search form-control" placeholder="Task"  onChange={(e) => setTaskName(e.target.value)} />
                                     </div>
 
                                 </div>
@@ -100,20 +109,9 @@ export default function TodoApp() {
                                         </tr>
                                     </thead>
 
-                                    {/* {console.log(JSON.parse(JSON.stringify(todo[0])))} */}
-                                    {/* {setTodo(JSON.parse(todo.data))} */}
+
                                     {todo.map(currentTodo => <Todo todo={currentTodo} key={currentTodo._id} />)}
-                                    {/* {todo.map(currentTodo => JSON.stringify(currentTodo)).forEach(currentTodo=>{
-                               return <Todo todo={currentTodo} key={currentTodo._id}/>                            })} */}
 
-
-                                    {/* {this.todoList()} */}
-                                    {/* {todo.map(currentTodo => {
-                               return <Todo todo={currentTodo} key={currentTodo._id}/>
-                            })} */}
-                                    {/* { todo.map(currentTodo => {
-            return <Todo todo={currentTodo.taskName}/>
-        })} */}
                                 </Table>
                             </div>
                         </form>

@@ -32,9 +32,9 @@ router.route('/create').post(auth,async(req, res) => {
       taskName,
       userId:req.user,
     });
-    
+
     newTask.save()
-    .then(()=>res.json('Task added!'))
+    .then(todo=>res.json(todo))
     .catch(err=>res.status(400).json({Error: err}));
 
 }catch(err){
@@ -51,7 +51,9 @@ if(!taskToDelete){
     return res.status(400).json({Error:"Task not found"});
 }
 const deletedTask=await Todo.findByIdAndDelete(req.params.id)
-return res.json(deletedTask);
+const tasks =await Todo.find({userId:req.user});
+res.json(tasks);
+return res.json(tasks);
 
   
 

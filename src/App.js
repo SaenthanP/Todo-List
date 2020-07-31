@@ -1,6 +1,5 @@
 
 import React,{useState, useEffect} from 'react';
-import logo from './logo.svg';
 import { BrowserRouter as Router, Route ,Switch,Redirect} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
