@@ -19,17 +19,44 @@ margin-left: 6rem;
   padding: 0 5rem;
 
 }
+.Typewriter {
+  text-align: center;
+  color:black;
+  font-family: Courier New;
+  font-size: 40px;
+
+}
+.task-table{
+  text-align: center;
+}
+.signin-card,.todo-card{
+   margin:auto; 
+  width:30rem;
+  border: 0;
+  border-radius: .5rem;
+  box-shadow: 5px 6px 13px 0px rgba(0,0,0,0.75);
+}
+div.todo-card{
+  margin-top: 2rem;
+  width:45rem;
+}
+.signin-btn{
+  border-radius: 2rem;
+}
+
+.input-group {
+  margin:0px auto;
+}
 @media(max-width:700px){
   div.todo-card{
     width: unset;
+    text-align: auto;
   }
   .d-flex{
     width: unset;
   }
   .task-search{
     width: unset;
-    margin-left: 2px;
-    width: 5rem;
 
     }
     .task-btn{

@@ -52,7 +52,6 @@ if(!taskToDelete){
 }
 const deletedTask=await Todo.findByIdAndDelete(req.params.id)
 const tasks =await Todo.find({userId:req.user});
-res.json(tasks);
 return res.json(tasks);
 
   

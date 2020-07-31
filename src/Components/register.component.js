@@ -1,10 +1,9 @@
-import React, { Component, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import UserContext from "../context/user.context";
 import Axios from 'axios';
 import Error from './error.component';
-import userContext from '../context/user.context';
 
 export default function Register () {
 const [username,setUsername]=useState();
@@ -17,14 +16,12 @@ const {setUserData}=useContext(UserContext);
 
         try {
             e.preventDefault();
-            console.log("test");
         
             const registerUser = {
                 username,
                 password,
                 confirmPassword
             }
-            console.log(registerUser);
             await Axios.post("http://localhost:5000/users/register", registerUser);
             const loginRes=await Axios.post("http://localhost:5000/users/login",{
                 username,
@@ -37,8 +34,7 @@ const {setUserData}=useContext(UserContext);
             localStorage.setItem("auth-token",loginRes.data.token);
             window.location = '/app';
         } catch (err) {
-            //this.setState({error: err.response.data.Error});
-            err.response.data.Error && setError(err.response.data.Error);
+                        err.response.data.Error && setError(err.response.data.Error);
         }
     }
 

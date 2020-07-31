@@ -1,21 +1,17 @@
-import React, { Component, useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
-import UserContext from "../context/user.context";
 import Axios from 'axios';
-import Error from './error.component';
 import NavBar from "../Components/navbar.component";
 import '../Component.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import Edit from '../Components/edit.component';
-
+import TypeWriterEffect from './typewriter.component';
 
 export default function TodoApp() {
     const [taskName, setTaskName] = useState();
-const [show,setShow]=useState(false);
+    const [error, setError] = useState(undefined);
+
     const [todo, setTodo] = useState([]);
-    const { userData } = useContext(UserContext);
 
     useEffect(() => {
 
@@ -30,7 +26,7 @@ const [show,setShow]=useState(false);
             setTodo(tasks.data);
         }
         readTasks();
-    },[]);
+    }, []);
 
     const onSubmit = async (e) => {
 
@@ -43,21 +39,19 @@ const [show,setShow]=useState(false);
 
             }
             const taskRes = await Axios.post("http://localhost:5000/todo/create", newTask, { headers: { "x-auth-token": localStorage.getItem('auth-token') } });
-            // console.log(taskRes.data);
-            setTodo([...todo,taskRes.data]);
+            setTodo([...todo, taskRes.data]);
 
-            // window.location = '/app';
         } catch (err) {
-            //this.setState({error: err.response.data.Error});
+            err.response.data.Error && setError(err.response.data.Error);
+
         }
     }
     const deleteTodo = async (id) => {
 
         const todoRes = await Axios.delete("http://localhost:5000/todo/" + id, { headers: { "x-auth-token": localStorage.getItem('auth-token') } });
-        // window.location = '/app';
         setTodo(todoRes.data);
 
-        
+
     }
 
     const Todo = (props) => ((
@@ -65,31 +59,29 @@ const [show,setShow]=useState(false);
             <tr>
 
                 <td key={props.todo._id}>{props.todo.taskName}</td>
-                <td >{<button type="button" onClick={()=>{setShow(true)}}>Edit Todo</button>}</td>
-                <td  >{<button type="button" onClick={() => {deleteTodo(props.todo._id) }}> Delete Todo</button>}</td>
-
-                {/* <td  >{<button onClick={() => {console.log ("")}}> Delete Todo</button>}</td> */}
+                <td  >{<button type="button" className="delete-btn" onClick={() => { deleteTodo(props.todo._id) }}> Click to Complete!</button>}</td>
             </tr>
 
         </tbody>
     ));
-  
- 
+
+
     return (
         <div className="container-fluid nav">
 
             <NavBar />
-            {(show==true)&&(<Edit show={true}  clearModal={()=>setShow(false)} /> )}
+            {error && (alert(error), setError(null))}
 
             <div className="container">
                 <div className="card todo-card">
                     <div className="card-body">
-                        <h5 className="card-title text-center">Todo List</h5>
+                        <h1 className="card-title text-center">Todo List</h1>
+                        <TypeWriterEffect/>
                         <form onSubmit={onSubmit} className="form-add-task">
                             <div className="row">
                                 <div className="col-sm-8 d-flex">
                                     <div className="form-group">
-                                        <input type="text" className="task-search form-control" placeholder="Task"  onChange={(e) => setTaskName(e.target.value)} />
+                                        <input type="text" className="task-search form-control" placeholder="Task" onChange={(e) => setTaskName(e.target.value)} />
                                     </div>
 
                                 </div>
@@ -104,7 +96,6 @@ const [show,setShow]=useState(false);
                                     <thead>
                                         <tr>
                                             <th>Task Name</th>
-                                            <th>Edit</th>
                                             <th>Delete</th>
                                         </tr>
                                     </thead>

@@ -5,7 +5,7 @@ import '../Component.css';
 import UserContext from '../context/user.context';
 
 export default function NavBar() {
-const {userData,setUserData}=useContext(UserContext);
+const {setUserData}=useContext(UserContext);
 const logout=()=>{
 setUserData({
     token:undefined,
