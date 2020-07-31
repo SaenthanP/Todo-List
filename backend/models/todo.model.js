@@ -6,7 +6,7 @@ const todoSchema=new Schema({
     taskName:{
         type:String,
         required:true,
-        unique:true,
+        // unique:true,
         trim:true,
      
     },

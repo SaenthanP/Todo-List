@@ -19,13 +19,13 @@ const {setUserData}=useContext(UserContext);
             e.preventDefault();
             console.log("test");
         
-            const user = {
+            const registerUser = {
                 username,
                 password,
                 confirmPassword
             }
-            console.log(user);
-            await Axios.post("http://localhost:5000/users/register", user);
+            console.log(registerUser);
+            await Axios.post("http://localhost:5000/users/register", registerUser);
             const loginRes=await Axios.post("http://localhost:5000/users/login",{
                 username,
                 password
@@ -53,15 +53,15 @@ const {setUserData}=useContext(UserContext);
                             <h5 className="card-title text-center">Register</h5>
                             <form onSubmit={onSubmit} className="form-signin">
                                 <div className="form-group">
-                                    <label for="inputEmail">Username</label>
+                                    <label htmlFor="inputEmail">Username</label>
                                     <input type="text" className="form-control" placeholder="Username" onChange={(e)=>setUsername(e.target.value)} />
                                 </div>
                                 <div className="form-group">
-                                    <label for="inputEmail">Password</label>
+                                    <label htmlFor="inputEmail">Password</label>
                                     <input type="password" className="form-control" placeholder="Password (Min 8 characters)" onChange={(e)=>setPassword(e.target.value)}/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="inputEmail">Confirm Password</label>
+                                    <label htmlFor="inputEmail">Confirm Password</label>
                                     <input type="password" className="form-control" placeholder="Re-enter Password" onChange={(e)=>setConfirmPassword(e.target.value)} />
                                 </div>
                                 <div className="form-group">

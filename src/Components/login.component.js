@@ -9,7 +9,7 @@ export default function Login(){
     const[username,setUsername]=useState();
     const[password,setPassword]=useState();
     const[error,setError]=useState();
-    const {setUserData}=useContext(UserContext);
+    const { setUserData } = useContext(UserContext);
     
    const onSubmit=async(e)=>{
        
@@ -17,17 +17,18 @@ export default function Login(){
         e.preventDefault();
         console.log("test");
        
-        const user={
+        const loginUser={
             username,
             password,
          
         }
-        console.log(user);
-        const loginRes=await Axios.post("http://localhost:5000/users/login",user);
+        console.log(loginUser);
+        const loginRes=await Axios.post("http://localhost:5000/users/login",loginUser);
         setUserData({
             token:loginRes.data.token,
             user:loginRes.data.user,
         });
+
         localStorage.setItem("auth-token",loginRes.data.token);
         window.location = '/app';
     }catch(err){
@@ -46,11 +47,11 @@ export default function Login(){
                                 <h5 className="card-title text-center">Sign In</h5>
                                 <form onSubmit={onSubmit} className="form-signin">
                                     <div className="form-group">
-                                        <label for="inputEmail">Username</label>
+                                        <label htmlFor="inputEmail">Username</label>
                                         <input type="text" className="form-control" placeholder="Username"  onChange={(e)=>setUsername(e.target.value)}/>
                                     </div>
                                     <div className="form-group">
-                                        <label for="inputEmail">Password</label>
+                                        <label htmlFor="inputEmail">Password</label>
                                         <input type="password" className="form-control" placeholder="Password"   onChange={(e)=>setPassword(e.target.value)}/>
                                     </div>
                                     <button className="btn btn-lg btn-primary btn-block text-uppercase signin-btn" type="submit">Sign in</button>

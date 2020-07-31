@@ -21,9 +21,9 @@ function App() {
   useEffect(()=>{
     const checkLoggedIn=async()=>{
    
-        let token=localStorage.getItem('x-auth-token');
+        let token=localStorage.getItem('auth-token');
         if(token===null){
-          localStorage.setItem('x-auth-token','',{path:"/"});
+          localStorage.setItem('auth-token','',{path:"/"});
           token="";
         }
         //Checks if the token is valid and gets the user data, and sets the state
@@ -46,7 +46,7 @@ function App() {
     <Router>
       {/* provider gives userData,setUserData to all the components in it */}
       <UserContext.Provider value={{userData,setUserData}}>
-        <div className="container-fluid">
+        <div className="parent container-fluid">
 
 
           <br />

@@ -8,3 +8,34 @@
 
 .navbar{
 }
+.task-search{
+width: 20rem;
+margin-left: 6rem;
+}
+
+.task-btn{
+    border-radius: 1rem;
+    margin-bottom: 10px;
+  padding: 0 5rem;
+
+}
+@media(max-width:700px){
+  div.todo-card{
+    width: unset;
+  }
+  .d-flex{
+    width: unset;
+  }
+  .task-search{
+    width: unset;
+    margin-left: 2px;
+    width: 5rem;
+
+    }
+    .task-btn{
+      margin-bottom: 10px;
+    padding: 0 1rem;
+  
+  }
+    
+}

@@ -55,23 +55,23 @@ router.route('/login').post(async(req,res)=>{
         if(!username||!password){
             return res.status(400).json({Error : "Not all field entered"});
         }
-        const user=await User.findOne({username:username});
-        if(!user){
+        const loginUser=await User.findOne({username:username});
+        if(!loginUser){
             return res.status(400).json({Error : "No user with this username"});
         }
-        const isMatch=await bcrypt.compare(password,user.password);
+        const isMatch=await bcrypt.compare(password,loginUser.password);
         if(!isMatch){
             return res.status(400).json({Error : "Invalid Credentials"});
         }
-        const token=jwt.sign({id:user._id},process.env.SECRET);
+        const token=jwt.sign({id:loginUser._id},process.env.SECRET);
         
     
        //token is used to validate the user
         res.json({
             token,
             user:{
-                id:user._id,
-                username:user.username,
+                id:loginUser._id,
+                username:loginUser.username,
             },
         });
        

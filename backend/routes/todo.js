@@ -8,7 +8,6 @@ const auth=require('../middleware/auth');
 
 router.route('/tasks').get(auth,async(req, res) => {
    const tasks =await Todo.find({userId:req.user});
-   console.log("reach");
    res.json(tasks);
 
 });
@@ -47,6 +46,7 @@ router.route('/create').post(auth,async(req, res) => {
 
 router.route('/:id').delete(auth,async(req,res)=>{
     const taskToDelete=Todo.findOne({userId:req.user,_id:req.params.id});
+    
 if(!taskToDelete){
     return res.status(400).json({Error:"Task not found"});
 }

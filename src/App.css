@@ -3,8 +3,21 @@
 
    display: flex;
   justify-content: center; 
- background:#eed0d0
+ /* background:#eed0d0 */
+ 
+
 }
+/* div.parent{
+   background:#eed0d0;
+
+  
+  background-image:url("test.png");
+  background-repeat: repeat-y;
+  height: 100%;
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: auto 100%;
+} */
 
 .signin-card,.todo-card{
    margin:auto; 
