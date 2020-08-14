@@ -1,7 +1,7 @@
 # MERN Stack Todo List
 
 ## Description
-A simple todo list made using the MERN stack
+A todo list made using the MERN stack
 - Secure login and registration through the use of JSON web tokens and bcrypt hashing
 - Can create and delete tasks
 
